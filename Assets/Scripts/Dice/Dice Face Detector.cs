@@ -8,7 +8,7 @@ public class DiceFaceDetector : MonoBehaviour
 
     private Rigidbody rb;
     private bool isRolling;
-    private float rollCheckDelay = 2.0f;
+    private float rollDelay = 2.0f;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class DiceFaceDetector : MonoBehaviour
         if (isRolling && rb.velocity.sqrMagnitude <= 0.1f)
         {
             isRolling = false;
-            Invoke("CheckTopFace", rollCheckDelay);
+            Invoke("CheckTopFace", rollDelay);
         }
     }
 

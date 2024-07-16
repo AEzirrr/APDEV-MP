@@ -1,14 +1,7 @@
 fileFormatVersion: 2
-guid: f0c16f0ea935ea64297ca1d4d55d9746
+guid: 968575761b04da140bedfdb7f09ab914
 PrefabImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 162153
-  packageName: Low-Poly Simple Nature Pack
-  packageVersion: 1.24
-  assetPath: Assets/SimpleNaturePack/Prefabs/Tree_04.prefab
-  uploadId: 582302

@@ -158,7 +158,7 @@ public class MarketUIDocument : MonoBehaviour
         this.HideDialogueBox();
     }
 
-    private void HideDialogueBox()
+    public void HideDialogueBox()
     {
         Debug.Log("HideDialogueBox: Hiding the dialogue box");
         this._dialogueBox.style.visibility = Visibility.Hidden;
@@ -179,8 +179,4 @@ public class MarketUIDocument : MonoBehaviour
         Debug.Log(DialogueStats.Op2Text);
     }
 
-    public void OnDiceSceneClosed()
-    {
-        HideDialogueBox();
-    }
 }

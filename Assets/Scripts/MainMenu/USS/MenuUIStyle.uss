@@ -3,27 +3,57 @@
 }
 
 #BGParent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#MainMenuContainer {
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    flex-shrink: 0;
 }
 
 #MainMenuBG {
     --unity-image: url("project://database/Assets/BG/MainMenu.jpg?fileID=2800000&guid=3af2f4de567eb2145b0d8a63ed561580&type=3#MainMenu");
-    --unity-image-size: stretch-to-fill;
+    --unity-image-size: scale-and-crop;
+    align-items: center;
     height: 100%;
     width: 100%;
+}
+
+#TitleHolder {
+    position: absolute;
+    top: 80px;
+    left: auto;
+}
+
+#Title {
+    --unity-image: url("project://database/Assets/Sprites/MainMenu/TITLE.png");
+    align-items: center;
+    height: 346px;
+    width: 1605px;
 }
 
 #ButtonHolder {
     flex-grow: 1;
     justify-content: center;
-    width: 139px;
     align-self: center;
     align-items: center;
     position: absolute;
     top: 500px;
     left: auto;
+    flex-direction: column; 
+    height: 371px; 
+    width: 247px;
 }
 
 #StartButton {
+    background-image: url("project://database/Assets/Sprites/MainMenu/START.png?fileID=2800000&guid=af71a3faae188db45a4d5f11a4bb9d0f&type=3#START");
     width: 300px;
     height: 100px;
     margin-top: 0;
@@ -31,10 +61,17 @@
     margin-right: 0;
     margin-bottom: 20px;
     font-size: 30px;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
     -unity-font-style: bold;
 }
 
 #DeveloperButton {
+    background-image: url("project://database/Assets/Sprites/MainMenu/DEVELOPER%20MENU.png?fileID=2800000&amp;guid=99f263bb493b056459984a45d9d95a71&amp;type=3#DEVELOPER MENU");
     width: 300px;
     height: 100px;
     margin-top: 20px;
@@ -43,12 +80,27 @@
     margin-bottom: 20px;
     font-size: 30px;
     -unity-font-style: bold;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    -unity-font-style: bold;
 }
 
 #QuitButton {
+    background-image: url("project://database/Assets/Sprites/MainMenu/QUIT.png?fileID=2800000&amp;guid=52c38b76312dca6498217f27ed6b464d&amp;type=3#QUIT");
     width: 300px;
     height: 100px;
     margin-top: 20px;
     font-size: 30px;
+    -unity-font-style: bold;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
     -unity-font-style: bold;
 }

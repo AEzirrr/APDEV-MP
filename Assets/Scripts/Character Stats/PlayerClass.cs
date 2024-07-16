@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class PlayerClass : MonoBehaviour
 {
-    public Text classNameText;
-    public Text strengthText;
-    public Text dexterityText;
-    public Text constitutionText;
-    public Text intelligenceText;
-    public Text wisdomText;
-    public Text charismaText;
+    public TMP_Text classNameText;
+    public TMP_Text strengthText;
+    public TMP_Text dexterityText;
+    public TMP_Text constitutionText;
+    public TMP_Text intelligenceText;
+    public TMP_Text wisdomText;
+    public TMP_Text charismaText;
 
     private void Start()
     {
@@ -27,11 +27,11 @@ public class PlayerClass : MonoBehaviour
         int charisma = PlayerPrefs.GetInt("PlayerCharisma", 0);
 
         classNameText.text = "Class: " + className;
-        strengthText.text = "Strength: " + strength;
-        dexterityText.text = "Dexterity: " + dexterity;
-        constitutionText.text = "Constitution: " + constitution;
-        intelligenceText.text = "Intelligence: " + intelligence;
-        wisdomText.text = "Wisdom: " + wisdom;
-        charismaText.text = "Charisma: " + charisma;
+        strengthText.text = "STR: " + strength;
+        dexterityText.text = "DEX: " + dexterity;
+        constitutionText.text = "CON: " + constitution;
+        intelligenceText.text = "INT: " + intelligence;
+        wisdomText.text = "WIS: " + wisdom;
+        charismaText.text = "CHA: " + charisma;
     }
 }

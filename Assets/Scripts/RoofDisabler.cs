@@ -8,16 +8,15 @@ public class RoofDisabler : MonoBehaviour
 
     private void Start()
     {
-        // Ensure the roof is assigned
         if (roof == null)
         {
-            Debug.LogError("Roof GameObject is not assigned in the inspector.");
+            
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (roof != null && other.CompareTag("Player")) // Assuming the player has a tag "Player"
+        if (roof != null && other.CompareTag("Player")) 
         {
             roof.SetActive(false);
         }
@@ -25,7 +24,7 @@ public class RoofDisabler : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (roof != null && other.CompareTag("Player")) // Assuming the player has a tag "Player"
+        if (roof != null && other.CompareTag("Player")) 
         {
             roof.SetActive(true);
         }

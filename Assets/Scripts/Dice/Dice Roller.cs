@@ -5,8 +5,8 @@ using UnityEngine;
 public class DiceRoller : MonoBehaviour
 {
     public GameObject dice;
-    public float shakeThreshold = 2.0f; // Threshold to detect shake
-    public float shakeTimeout = 1.0f; // Time window to accept shakes
+    public float shakeThreshold = 2.0f;
+    public float shakeTimeout = 1.0f;
 
     private Vector3 acceleration;
     private float lastShakeTime;

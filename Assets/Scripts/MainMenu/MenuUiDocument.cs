@@ -32,7 +32,6 @@ public class MenuUiDocument : MonoBehaviour
     private void OnStartButtonClicked()
     {
         SFXManager.instance.PlaySfxClip(ButtonSFX, transform, .1f);
-        Debug.Log("Change Scene called");
         SceneManager.LoadScene("ClassSelection");
     }
 

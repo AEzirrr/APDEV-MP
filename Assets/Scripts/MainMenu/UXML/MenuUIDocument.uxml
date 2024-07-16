@@ -1,13 +1,16 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/MainMenu/USS/MenuUIStyle.uss?fileID=7433441132597879392&amp;guid=81f8cfd60c94fb2489da7452112c82ce&amp;type=3#MenuUIStyle" />
-    <engine:VisualElement name="MainMenuContainer" style="align-self: center; justify-content: center; align-items: center; width: 100%; height: 100%;">
-        <engine:VisualElement name="BGParent" style="position: absolute; width: 2340px; height: 1080px;">
-            <engine:Image name="MainMenuBG" style="align-items: center;" />
+    <engine:VisualElement name="MainMenuContainer" >
+        <engine:VisualElement name="BGParent" >
+            <engine:Image name="MainMenuBG" />
         </engine:VisualElement>
-        <engine:VisualElement name="ButtonHolder">
-            <engine:Button name="StartButton" text="Start Game" />
-            <engine:Button name="DeveloperButton" text="Developer Menu" />
-            <engine:Button name="QuitButton" text="Quit" />
+        <engine:VisualElement name="ButtonHolder" >
+            <engine:Button name="StartButton" />
+            <engine:Button name="DeveloperButton" />
+            <engine:Button name="QuitButton" />
+        </engine:VisualElement>
+        <engine:VisualElement name="TitleHolder">
+            <engine:Image name="Title"/>
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

@@ -14,52 +14,48 @@ public class MarketManager : MonoBehaviour
         gameScene = SceneManager.GetSceneByName("MarketScene");
         if (marketUIDocument == null)
         {
-            Debug.LogError("MarketUIDocument reference not set in MarketManager.");
+            Debug.LogError("MarketUIDocument not found");
         }
     }
 
     public void OnDiceButtonClicked(string sceneName)
     {
-        Debug.Log("OnDiceButtonClicked: Loading scene " + sceneName);
+        marketUIDocument.HideDialogueBox();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
         GameSceneOBJ(gameScene, false);
     }
-
 
     private void GameSceneOBJ(Scene scene, bool active)
     {
         foreach (GameObject obj in scene.GetRootGameObjects())
         {
-            if (obj.name == "MarketManager") //Will change soon to accomodate all area scenes
-
+            if (obj.name == "MarketManager") //Will change soon to accommodate all area scenes
             {
-                obj.SetActive(true); 
+                obj.SetActive(true);
             }
             else if (obj.name == "MarketUIDocument")
             {
-                obj.SetActive(false);
+                obj.SetActive(true);
+            }
+            else if (obj.name == "EventSystem")
+            {
+                obj.SetActive(true);
             }
             else
             {
                 obj.SetActive(active);
             }
-
         }
     }
 
-
     public void OnDiceSceneClosed()
     {
-        Debug.Log("OnDiceSceneClosed: Unloading DiceRoll scene");
-        // Unload the Dice Scene
         SceneManager.UnloadSceneAsync("DiceRoll");
-        // Re-enable all objects in the GameScene
         GameSceneOBJ(gameScene, true);
 
         if (marketUIDocument != null)
         {
-            Debug.Log("OnDiceSceneClosed: Hiding Dialogue Box");
-            marketUIDocument.OnDiceSceneClosed();
+            marketUIDocument.gameObject.SetActive(true);
         }
     }
 }

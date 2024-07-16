@@ -43,6 +43,11 @@ public class ClassSelection : MonoBehaviour
         PlayerPrefs.SetInt("PlayerCharisma", classStats.charisma);
     }
 
+    public void OnBackButtonClicked()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     private void LoadMarketScene()
     {
         SceneManager.LoadScene("MarketScene");
