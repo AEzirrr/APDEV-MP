@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterStats : MonoBehaviour
+public abstract class CharacterStats : MonoBehaviour
 {
     public string characterName;
     public int maxHealth;
@@ -12,16 +12,17 @@ public class CharacterStats : MonoBehaviour
     public int wisdom;
     public int charisma;
 
-    public virtual void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
+            currentHealth = 0;
             Die();
         }
     }
 
-    public virtual void Heal(int amount)
+    public void Heal(int amount)
     {
         currentHealth += amount;
         if (currentHealth > maxHealth)

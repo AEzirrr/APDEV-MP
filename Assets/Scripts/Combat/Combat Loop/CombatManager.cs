@@ -14,6 +14,10 @@ public class CombatManager : MonoBehaviour
 
     private void Start()
     {
+        // Update references to instantiated player and enemy
+        player = gridManager.playerInstance.GetComponent<PlayerStats>();
+        enemy = gridManager.enemyInstance.GetComponent<EnemyStats>();
+
         StartCoroutine(CombatRoutine());
     }
 
@@ -44,6 +48,11 @@ public class CombatManager : MonoBehaviour
         {
             PlayerHeal();
         }
+        else if (combatUIManager.SelectedAction == CombatUIManager.ActionType.Move)
+        {
+            // Move action will be handled by clicking on the target tile
+            combatUIManager.StartTileSelection();
+        }
 
         // Reset action state
         combatUIManager.ResetActionState();
@@ -51,7 +60,7 @@ public class CombatManager : MonoBehaviour
 
     public void PlayerAttack()
     {
-        if (player.IsEnemyInRange()) // Check if the enemy is in range using the trigger collider
+        if (IsInRange(player, enemy, 1)) // Check if the enemy is in range using the trigger collider
         {
             // Roll the dice
             internalDice.OnInternalDiceRolled();
@@ -109,7 +118,7 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator EnemyTurn()
     {
-        if (enemy.IsPlayerInRange()) // Check if the player is in range using the trigger collider
+        if (IsInRange(enemy, player, 1)) // Check if the player is in range using the trigger collider
         {
             // Roll the dice
             internalDice.OnInternalDiceRolled();
@@ -128,15 +137,26 @@ public class CombatManager : MonoBehaviour
         yield return null;
     }
 
+    private bool IsInRange(CharacterStats attacker, CharacterStats target, int range)
+    {
+        Vector2 attackerPos = new Vector2(attacker.transform.position.x, attacker.transform.position.z);
+        Vector2 targetPos = new Vector2(target.transform.position.x, target.transform.position.z);
+        return Vector2.Distance(attackerPos, targetPos) <= range;
+    }
+
     private void EndCombat()
     {
         if (player.currentHealth <= 0)
         {
             Debug.Log("Player defeated!");
+            CombatProperties.CombatResult = false;
+            CloseCombat();
         }
         else if (enemy.currentHealth <= 0)
         {
             Debug.Log("Enemy defeated!");
+            CombatProperties.CombatResult = true;
+            CloseCombat();
         }
     }
 
