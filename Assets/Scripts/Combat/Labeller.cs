@@ -7,7 +7,7 @@ using UnityEngine;
 public class Labeller : MonoBehaviour
 {
     TextMeshPro Label;
-    public Vector2Int cords; // Assuming this is set manually now
+    public Vector2Int cords; 
     GridManager gridManager;
 
     private void Awake()

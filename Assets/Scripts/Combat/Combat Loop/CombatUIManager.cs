@@ -14,7 +14,7 @@ public class CombatUIManager : MonoBehaviour
     public bool ActionSelected { get; set; }
     public ActionType SelectedAction { get; private set; }
 
-    private Vector2Int selectedTargetTile; // Track the selected tile
+    private Vector2Int selectedTargetTile; 
 
     public enum ActionType
     {
@@ -33,7 +33,6 @@ public class CombatUIManager : MonoBehaviour
 
     private void Update()
     {
-        // Handle tapping on tiles to select the target position for movement
         if (SelectedAction == ActionType.Move && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
@@ -46,7 +45,7 @@ public class CombatUIManager : MonoBehaviour
                     {
                         selectedTargetTile = tile.cords;
                         combatManager.PlayerMove(selectedTargetTile);
-                        ResetActionState(); // Reset action state after movement
+                        ResetActionState(); 
                     }
                 }
             }
@@ -68,12 +67,12 @@ public class CombatUIManager : MonoBehaviour
     private void OnMoveButton()
     {
         SelectedAction = ActionType.Move;
-        ActionSelected = true; // Enable tile selection in Update
+        ActionSelected = true; 
     }
 
     public void StartTileSelection()
     {
-        // Any setup needed for tile selection
+    
     }
 
     public void UpdateTurnCounter(int turn)

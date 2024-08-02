@@ -37,17 +37,14 @@ public class SpawnReceiver : MonoBehaviour, ITappable, ISwipeable, IDraggable
             Vector2 screenPosition = args.TrackedFinger.position;
             Ray ray = Camera.main.ScreenPointToRay(screenPosition);
 
-            // Find the intersection point with the object's Z plane
             Plane plane = new Plane(Vector3.forward, new Vector3(0, 0, this.transform.position.z));
             float distance;
             if (plane.Raycast(ray, out distance))
             {
                 Vector3 worldPosition = ray.GetPoint(distance);
 
-                // Constrain movement to X and Y, keeping the original Z value
                 worldPosition.z = this.transform.position.z;
 
-                // Update the target position
                 this._targetPosition = worldPosition;
 
                 Debug.DrawRay(ray.origin, ray.direction * distance, Color.green);

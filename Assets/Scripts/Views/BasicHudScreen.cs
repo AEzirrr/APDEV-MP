@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BasicHudScreen : View {
 
-	// Use this for initialization
 	void Start () {
 		
 	}

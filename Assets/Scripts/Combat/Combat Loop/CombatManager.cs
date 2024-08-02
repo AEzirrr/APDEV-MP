@@ -16,7 +16,6 @@ public class CombatManager : MonoBehaviour
 
     private void Start()
     {
-        // Update references to instantiated player and enemy
         player = gridManager.playerInstance.GetComponent<PlayerStats>();
         enemy = gridManager.enemyInstance.GetComponent<EnemyStats>();
 
@@ -46,10 +45,8 @@ public class CombatManager : MonoBehaviour
 
     private IEnumerator PlayerTurn()
     {
-        // Wait for player input via UI
         yield return new WaitUntil(() => combatUIManager.ActionSelected);
 
-        // Perform the selected action
         if (combatUIManager.SelectedAction == CombatUIManager.ActionType.Attack)
         {
             PlayerAttack();
@@ -60,66 +57,52 @@ public class CombatManager : MonoBehaviour
         }
         else if (combatUIManager.SelectedAction == CombatUIManager.ActionType.Move)
         {
-            // Move action will be handled by clicking on the target tile
             combatUIManager.StartTileSelection();
-            yield return new WaitUntil(() => !combatUIManager.ActionSelected); // Wait until the move action is completed
+            yield return new WaitUntil(() => !combatUIManager.ActionSelected);
         }
 
-        // Reset action state
         combatUIManager.ResetActionState();
     }
 
     public void PlayerAttack()
     {
-        if (IsInRange(player, enemy, 1)) // Check if the enemy is in range using the trigger collider
+        if (IsInRange(player, enemy, 1)) 
         {
-            // Roll the dice
             internalDice.OnInternalDiceRolled();
             int damage = internalDice.diceResult + player.strength;
 
-            // Deal damage to the enemy
             enemy.TakeDamage(damage);
 
-            // Display the dice roll result in the UI
             combatUIManager.UpdateDiceRollResult(internalDice.diceResult);
 
-            // Display the damage dealt in the UI
             combatUIManager.UpdateDamageDealt(damage);
 
-            // Print the result to the console
             Debug.Log($"Player rolled {internalDice.diceResult} + {player.strength} strength = {damage} damage.");
             Debug.Log($"Enemy Health: {enemy.currentHealth}/{enemy.maxHealth}");
 
-            // Continue to the enemy's turn
             StartCoroutine(EnemyTurn());
         }
         else
         {
             Debug.Log("Enemy is out of melee range.");
-            StartCoroutine(EnemyTurn()); // Continue to the enemy's turn even if the attack fails
+            StartCoroutine(EnemyTurn()); 
         }
     }
 
     public void PlayerHeal()
     {
-        // Roll the dice
         internalDice.OnInternalDiceRolled();
         int healAmount = internalDice.diceResult + player.wisdom;
 
-        // Heal the player
         player.Heal(healAmount);
 
-        // Display the dice roll result in the UI
         combatUIManager.UpdateDiceRollResult(internalDice.diceResult);
 
-        // Display the healing amount in the UI
         combatUIManager.UpdateDamageDealt(healAmount);
 
-        // Print the result to the console
         Debug.Log($"Player rolled {internalDice.diceResult} + {player.wisdom} wisdom = {healAmount} healing.");
         Debug.Log($"Player Health: {player.currentHealth}/{player.maxHealth}");
 
-        // Continue to the enemy's turn
         StartCoroutine(EnemyTurn());
     }
 
@@ -128,7 +111,6 @@ public class CombatManager : MonoBehaviour
         Vector2Int playerCoords = gridManager.GetCoordinatesFromPosition(player.transform.position);
         List<Node> path = pathfinding.GetNewPath(playerCoords, targetCords);
         StartCoroutine(MoveAlongPath(path));
-        // Continue to the enemy's turn after moving
         StartCoroutine(EnemyTurn());
     }
 
@@ -137,29 +119,24 @@ public class CombatManager : MonoBehaviour
         foreach (Node node in path)
         {
             Vector3 targetPosition = gridManager.GetPositionFromCoordinates(node.cords);
-            player.transform.position = targetPosition; // Simplified movement logic
-            yield return new WaitForSeconds(0.5f); // Adjust as needed for smoothness
+            player.transform.position = targetPosition; 
+            yield return new WaitForSeconds(0.5f); 
         }
     }
 
     private IEnumerator EnemyTurn()
     {
-        if (IsInRange(enemy, player, 1)) // Check if the player is in range using the trigger collider
+        if (IsInRange(enemy, player, 1)) 
         {
-            // Roll the dice
             internalDice.OnInternalDiceRolled();
             int damage = internalDice.diceResult + enemy.strength;
 
-            // Deal damage to the player
             player.TakeDamage(damage);
 
-            // Display the dice roll result in the UI
             combatUIManager.UpdateDiceRollResult(internalDice.diceResult);
 
-            // Display the damage dealt in the UI
             combatUIManager.UpdateDamageDealt(damage);
 
-            // Print the result to the console
             Debug.Log($"Enemy rolled {internalDice.diceResult} + {enemy.strength} strength = {damage} damage.");
             Debug.Log($"Player Health: {player.currentHealth}/{player.maxHealth}");
         }

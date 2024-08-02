@@ -11,7 +11,6 @@ public class UnitController : MonoBehaviour
     GridManager gridManager;
     Pathfinding pathFinder;
 
-    // Reference to the enemy
     [SerializeField] Transform enemyUnit;
 
     void Start()
@@ -36,7 +35,6 @@ public class UnitController : MonoBehaviour
                         Tile tile = hit.transform.GetComponent<Tile>();
                         Vector2Int targetCords = tile.cords;
 
-                        // Check if the selected tile is walkable
                         if (gridManager.GetNode(targetCords).walkable)
                         {
                             Vector2Int startCords = gridManager.GetCoordinatesFromPosition(selectedUnit.position);
@@ -60,12 +58,11 @@ public class UnitController : MonoBehaviour
             }
         }
 
-        // Example: Check if enemy is in range
         if (unitSelected && enemyUnit != null)
         {
             Vector2Int playerCoords = gridManager.GetCoordinatesFromPosition(selectedUnit.position);
             Vector2Int enemyCoords = gridManager.GetCoordinatesFromPosition(enemyUnit.position);
-            if (IsInRange(playerCoords, enemyCoords, 1)) // Melee range: 1 tile away
+            if (IsInRange(playerCoords, enemyCoords, 1)) 
             {
                 Debug.Log("Enemy is in range!");
             }

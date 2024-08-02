@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] Vector2Int gridSize; // Grid size in terms of number of cells
-    [SerializeField] int unityGridSize;   // Size of each grid cell in Unity units
+    [SerializeField] Vector2Int gridSize;
+    [SerializeField] int unityGridSize; 
     public int UnityGridSize { get { return unityGridSize; } }
 
     public Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
     public Dictionary<Vector2Int, Node> Grid { get { return grid; } }
 
     [SerializeField] List<GameObject> tiles = new List<GameObject>();
-    [SerializeField] GameObject playerPrefab;  // Player prefab reference
-    [SerializeField] GameObject enemyPrefab;   // Enemy prefab reference
+    [SerializeField] GameObject playerPrefab;  
+    [SerializeField] GameObject enemyPrefab;   
 
     public GameObject playerInstance; 
     public GameObject enemyInstance;  

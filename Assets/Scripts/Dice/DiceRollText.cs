@@ -6,7 +6,7 @@ using TMPro;
 public class DiceRollText : MonoBehaviour
 {
     [SerializeField] TMP_Text text;
-    private int lastDiceRollResult = -1; // Initialize to a value that won't match any dice roll result
+    private int lastDiceRollResult = -1; 
 
     void Start()
     {

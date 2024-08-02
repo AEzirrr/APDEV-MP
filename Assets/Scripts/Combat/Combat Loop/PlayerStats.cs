@@ -23,7 +23,7 @@ public class PlayerStats : CharacterStats
         charisma = classStats.charisma;
 
         
-        maxHealth = constitution * 10; // Example formula
+        maxHealth = constitution * 10;
         currentHealth = maxHealth;
     }
 

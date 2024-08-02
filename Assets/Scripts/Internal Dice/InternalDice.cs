@@ -29,6 +29,6 @@ public class InternalDice : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
         diceResult = 0;
-        diceText.text = "Roll Result: -"; // Optional: Reset display text
+        diceText.text = "Roll Result: -"; 
     }
 }

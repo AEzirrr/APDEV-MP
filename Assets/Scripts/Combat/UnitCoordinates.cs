@@ -10,17 +10,13 @@ public class UnitCoordinates : MonoBehaviour
 
     private void Awake()
     {
-        // Check if an instance already exists
         if (Instance != null && Instance != this)
         {
-            // Destroy this instance if it's not the singleton instance
             Destroy(gameObject);
         }
         else
         {
-            // Set this instance as the singleton instance
             Instance = this;
-            // Optionally, make this object persist across scenes
             DontDestroyOnLoad(gameObject);
         }
     }
