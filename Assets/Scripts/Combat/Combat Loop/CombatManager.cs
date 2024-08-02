@@ -12,6 +12,8 @@ public class CombatManager : MonoBehaviour
     public Pathfinding pathfinding;
     [SerializeField] private MarketManager marketManager;
 
+    private int turnCounter = 0;
+
     private void Start()
     {
         // Update references to instantiated player and enemy
@@ -25,13 +27,21 @@ public class CombatManager : MonoBehaviour
     {
         while (player.currentHealth > 0 && enemy.currentHealth > 0)
         {
+            UpdateTurnCounterUI();
             yield return PlayerTurn();
             if (enemy.currentHealth <= 0) break;
 
+            UpdateTurnCounterUI();
             yield return EnemyTurn();
         }
 
         EndCombat();
+    }
+
+    private void UpdateTurnCounterUI()
+    {
+        turnCounter++;
+        combatUIManager.UpdateTurnCounter(turnCounter);
     }
 
     private IEnumerator PlayerTurn()
@@ -52,6 +62,7 @@ public class CombatManager : MonoBehaviour
         {
             // Move action will be handled by clicking on the target tile
             combatUIManager.StartTileSelection();
+            yield return new WaitUntil(() => !combatUIManager.ActionSelected); // Wait until the move action is completed
         }
 
         // Reset action state
@@ -72,12 +83,20 @@ public class CombatManager : MonoBehaviour
             // Display the dice roll result in the UI
             combatUIManager.UpdateDiceRollResult(internalDice.diceResult);
 
+            // Display the damage dealt in the UI
+            combatUIManager.UpdateDamageDealt(damage);
+
+            // Print the result to the console
+            Debug.Log($"Player rolled {internalDice.diceResult} + {player.strength} strength = {damage} damage.");
+            Debug.Log($"Enemy Health: {enemy.currentHealth}/{enemy.maxHealth}");
+
             // Continue to the enemy's turn
             StartCoroutine(EnemyTurn());
         }
         else
         {
             Debug.Log("Enemy is out of melee range.");
+            StartCoroutine(EnemyTurn()); // Continue to the enemy's turn even if the attack fails
         }
     }
 
@@ -93,6 +112,13 @@ public class CombatManager : MonoBehaviour
         // Display the dice roll result in the UI
         combatUIManager.UpdateDiceRollResult(internalDice.diceResult);
 
+        // Display the healing amount in the UI
+        combatUIManager.UpdateDamageDealt(healAmount);
+
+        // Print the result to the console
+        Debug.Log($"Player rolled {internalDice.diceResult} + {player.wisdom} wisdom = {healAmount} healing.");
+        Debug.Log($"Player Health: {player.currentHealth}/{player.maxHealth}");
+
         // Continue to the enemy's turn
         StartCoroutine(EnemyTurn());
     }
@@ -102,7 +128,7 @@ public class CombatManager : MonoBehaviour
         Vector2Int playerCoords = gridManager.GetCoordinatesFromPosition(player.transform.position);
         List<Node> path = pathfinding.GetNewPath(playerCoords, targetCords);
         StartCoroutine(MoveAlongPath(path));
-        combatUIManager.ResetActionState(); // Reset action state
+        // Continue to the enemy's turn after moving
         StartCoroutine(EnemyTurn());
     }
 
@@ -129,6 +155,13 @@ public class CombatManager : MonoBehaviour
 
             // Display the dice roll result in the UI
             combatUIManager.UpdateDiceRollResult(internalDice.diceResult);
+
+            // Display the damage dealt in the UI
+            combatUIManager.UpdateDamageDealt(damage);
+
+            // Print the result to the console
+            Debug.Log($"Enemy rolled {internalDice.diceResult} + {enemy.strength} strength = {damage} damage.");
+            Debug.Log($"Player Health: {player.currentHealth}/{player.maxHealth}");
         }
         else
         {

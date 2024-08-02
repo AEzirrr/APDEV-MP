@@ -14,8 +14,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] GameObject playerPrefab;  // Player prefab reference
     [SerializeField] GameObject enemyPrefab;   // Enemy prefab reference
 
-    public GameObject playerInstance; // Instance of the player
-    public GameObject enemyInstance;  // Instance of the enemy
+    public GameObject playerInstance; 
+    public GameObject enemyInstance;  
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class GridManager : MonoBehaviour
             Tile tileComponent = tile.GetComponent<Tile>();
             if (tileComponent != null && tileComponent.cords == coordinates)
             {
-                return tile.transform.position;
+                return tile.transform.position + Vector3.up * 0.5f; 
             }
         }
 
@@ -108,11 +108,11 @@ public class GridManager : MonoBehaviour
         Vector3 playerPosition = GetPositionFromCoordinates(playerCoords);
         Vector3 enemyPosition = GetPositionFromCoordinates(enemyCoords);
 
-        // Instantiate player and enemy at the calculated positions
+      
         playerInstance = Instantiate(playerPrefab, playerPosition, Quaternion.identity);
         enemyInstance = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity);
 
-        // Optionally, set specific components or scripts
+       
         playerInstance.GetComponent<PlayerStats>().characterName = "Player";
         enemyInstance.GetComponent<EnemyStats>().characterName = "Enemy";
     }
