@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CombatUIManager : MonoBehaviour
 {
@@ -7,6 +8,9 @@ public class CombatUIManager : MonoBehaviour
     public Button attackButton;
     public Button healButton;
     public Button moveButton;
+    public TextMeshProUGUI turnCounterText;
+    public TextMeshProUGUI diceRollResultText;
+    public TextMeshProUGUI damageDealtText;
     public bool ActionSelected { get; set; }
     public ActionType SelectedAction { get; private set; }
 
@@ -29,10 +33,10 @@ public class CombatUIManager : MonoBehaviour
 
     private void Update()
     {
-        // Handle clicking on tiles to select the target position for movement
-        if (Input.GetMouseButtonDown(0) && SelectedAction == ActionType.Move)
+        // Handle tapping on tiles to select the target position for movement
+        if (SelectedAction == ActionType.Move && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.collider.CompareTag("Tile"))
@@ -42,6 +46,7 @@ public class CombatUIManager : MonoBehaviour
                     {
                         selectedTargetTile = tile.cords;
                         combatManager.PlayerMove(selectedTargetTile);
+                        ResetActionState(); // Reset action state after movement
                     }
                 }
             }
@@ -71,10 +76,20 @@ public class CombatUIManager : MonoBehaviour
         // Any setup needed for tile selection
     }
 
+    public void UpdateTurnCounter(int turn)
+    {
+        turnCounterText.text = "Turn: " + turn;
+    }
+
     public void UpdateDiceRollResult(int result)
     {
-        // Implement UI logic to update dice roll result
+        diceRollResultText.text = "Dice Roll: " + result;
         Debug.Log("Dice Roll Result: " + result);
+    }
+
+    public void UpdateDamageDealt(int damage)
+    {
+        damageDealtText.text = "Damage: " + damage;
     }
 
     public void ResetActionState()
