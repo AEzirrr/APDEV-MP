@@ -1,33 +1,33 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    [SerializeField] Vector2Int gridSize;
-    [SerializeField] int unityGridSize;
+    [SerializeField] Vector2Int gridSize; // Grid size in terms of number of cells
+    [SerializeField] int unityGridSize;   // Size of each grid cell in Unity units
     public int UnityGridSize { get { return unityGridSize; } }
 
     public Dictionary<Vector2Int, Node> grid = new Dictionary<Vector2Int, Node>();
     public Dictionary<Vector2Int, Node> Grid { get { return grid; } }
 
     [SerializeField] List<GameObject> tiles = new List<GameObject>();
+    [SerializeField] GameObject playerPrefab;  // Player prefab reference
+    [SerializeField] GameObject enemyPrefab;   // Enemy prefab reference
+
+    public GameObject playerInstance; // Instance of the player
+    public GameObject enemyInstance;  // Instance of the enemy
 
     private void Awake()
     {
         CreateGrid();
         InitializeTiles();
-        PrintGridContents();  // Print grid contents after creation
+        PrintGridContents();
+        SpawnPlayerAndEnemy();
     }
 
     public Node GetNode(Vector2Int coordinates)
     {
-        if (grid.ContainsKey(coordinates))
-        {
-            return grid[coordinates];
-        }
-
-        return null;
+        return grid.ContainsKey(coordinates) ? grid[coordinates] : null;
     }
 
     public void BlockNode(Vector2Int coordinates)
@@ -48,7 +48,7 @@ public class GridManager : MonoBehaviour
 
     public void ResetNodes()
     {
-        foreach (KeyValuePair<Vector2Int, Node> entry in grid)
+        foreach (var entry in grid)
         {
             entry.Value.connectTo = null;
             entry.Value.explored = false;
@@ -58,13 +58,7 @@ public class GridManager : MonoBehaviour
 
     public Vector2Int GetCoordinatesFromPosition(Vector3 position)
     {
-        Vector2Int coordinates = new Vector2Int
-        {
-            x = Mathf.RoundToInt(position.x / unityGridSize),
-            y = Mathf.RoundToInt(position.z / unityGridSize)
-        };
-
-        return coordinates;
+        return new Vector2Int(Mathf.RoundToInt(position.x / unityGridSize), Mathf.RoundToInt(position.z / unityGridSize));
     }
 
     public Vector3 GetPositionFromCoordinates(Vector2Int coordinates)
@@ -74,8 +68,7 @@ public class GridManager : MonoBehaviour
             Tile tileComponent = tile.GetComponent<Tile>();
             if (tileComponent != null && tileComponent.cords == coordinates)
             {
-                Vector3 tilePosition = tile.transform.position;
-                return tilePosition;
+                return tile.transform.position;
             }
         }
 
@@ -100,23 +93,35 @@ public class GridManager : MonoBehaviour
         foreach (GameObject tile in tiles)
         {
             Tile tileComponent = tile.GetComponent<Tile>();
-            if (tileComponent != null)
+            if (tileComponent != null && tileComponent.blocked)
             {
-                if (tileComponent.blocked)
-                {
-                    BlockNode(tileComponent.cords);
-                }
+                BlockNode(tileComponent.cords);
             }
         }
+    }
+
+    private void SpawnPlayerAndEnemy()
+    {
+        Vector2Int playerCoords = new Vector2Int(1, gridSize.y / 2);
+        Vector2Int enemyCoords = new Vector2Int(gridSize.x - 2, gridSize.y / 2);
+
+        Vector3 playerPosition = GetPositionFromCoordinates(playerCoords);
+        Vector3 enemyPosition = GetPositionFromCoordinates(enemyCoords);
+
+        // Instantiate player and enemy at the calculated positions
+        playerInstance = Instantiate(playerPrefab, playerPosition, Quaternion.identity);
+        enemyInstance = Instantiate(enemyPrefab, enemyPosition, Quaternion.identity);
+
+        // Optionally, set specific components or scripts
+        playerInstance.GetComponent<PlayerStats>().characterName = "Player";
+        enemyInstance.GetComponent<EnemyStats>().characterName = "Enemy";
     }
 
     public void PrintGridContents()
     {
         foreach (var entry in grid)
         {
-            Vector2Int coordinates = entry.Key;
-            Node node = entry.Value;
-            Debug.Log($"Coordinates: {coordinates} - Walkable: {node.walkable}");
+            Debug.Log($"Coordinates: {entry.Key} - Walkable: {entry.Value.walkable}");
         }
     }
 }

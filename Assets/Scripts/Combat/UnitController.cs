@@ -95,7 +95,7 @@ public class UnitController : MonoBehaviour
 
             while (Vector3.Distance(selectedUnit.position, targetPosition) > 1f)
             {
-                float distanceCovered = (Time.time - startTime) * 5;
+                float distanceCovered = (Time.time - startTime) * movementSpeed;
                 float fractionOfJourney = distanceCovered / journeyLength;
                 selectedUnit.position = Vector3.Lerp(startPosition, targetPosition, fractionOfJourney);
                 yield return null;

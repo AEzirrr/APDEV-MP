@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,19 +30,20 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
-    public List<Node> GetNewPath()
+    public List<Node> GetNewPath(Vector2Int start, Vector2Int target)
     {
-        return GetNewPath(startCords, targetCords);
+        startCords = start;
+        targetCords = target;
+        gridManager.ResetNodes();
+        BreadthFirstSearch(startCords);
+        return BuildPath();
     }
 
-    public List<Node> GetNewPath(Vector2Int startCoordinates, Vector2Int targetCoordinates)
+    public void SetNewDestination(Vector2Int startCoordinates, Vector2Int targetCoordinates)
     {
         startCords = startCoordinates;
         targetCords = targetCoordinates;
-
-        gridManager.ResetNodes();
-        BreadthFirstSearch(startCoordinates);
-        return BuildPath();
+        GetNewPath(startCoordinates, targetCoordinates);
     }
 
     void BreadthFirstSearch(Vector2Int coordinates)
@@ -57,26 +57,21 @@ public class Pathfinding : MonoBehaviour
         startNode = grid[coordinates];
         targetNode = grid[targetCords];
 
-        startNode.walkable = true;
-        targetNode.walkable = true;
-
         frontier.Clear();
         reached.Clear();
-
-        bool isRunning = true;
 
         frontier.Enqueue(startNode);
         reached.Add(coordinates, startNode);
 
-        while (frontier.Count > 0 && isRunning)
+        while (frontier.Count > 0)
         {
             currentNode = frontier.Dequeue();
             currentNode.explored = true;
             ExploreNeighbors();
             if (currentNode.cords == targetCords)
             {
-                isRunning = false;
                 currentNode.walkable = false;
+                break;
             }
         }
     }
@@ -131,13 +126,5 @@ public class Pathfinding : MonoBehaviour
     public void NotifyReceivers()
     {
         BroadcastMessage("RecalculatePath", false, SendMessageOptions.DontRequireReceiver);
-    }
-
-    public void SetNewDestination(Vector2Int startCoordinates, Vector2Int targetCoordinates)
-    {
-        startCords = startCoordinates;
-        targetCords = targetCoordinates;
-        Debug.Log($"Set new destination: Start: {startCords}, Target: {targetCords}");
-        GetNewPath(startCoordinates, targetCoordinates);
     }
 }
